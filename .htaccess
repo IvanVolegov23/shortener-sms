@@ -1,0 +1,34 @@
+## Uncomment (remove # ONLY NOT ##) line below if installed in folder and add folder name after /
+
+<IfModule mod_rewrite.c>
+	<IfModule mod_negotiation.c>
+	    Options -MultiViews -Indexes
+	</IfModule>
+
+	RewriteEngine On
+
+	# Handle Authorization Header
+	RewriteCond %{HTTP:Authorization} ^(.*)
+	RewriteRule .* - [e=HTTP_AUTHORIZATION:%1]
+
+	## Uncomment the following line to use the multi-domain feature
+	# RewriteCond %{HTTP_HOST} ^yourseconddomain\.com$ [NC]
+	# RewriteRule ^(.*)$ http://yourfirstdomain.com/$1 [R=301,L]
+
+	#Rewritebase /
+	## Admin Panel
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteRule ^admin/(.*)?$ admin/index.php?a=$1 [QSA,NC,L]
+
+	## Sitemap ###
+	RewriteRule ^sitemap.xml$ sitemap.php
+
+	## Application Handler
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteRule ^(.*)?$ index.php?a=$1	[QSA,NC,L]
+
+	## Error 404 ##
+	ErrorDocument 404 /index.php?a=404
+</IfModule>
